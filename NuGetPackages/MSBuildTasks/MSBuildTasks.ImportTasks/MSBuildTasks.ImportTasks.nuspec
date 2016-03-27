@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>MSBuildTasks.ImportTasks</id>
+    <version>0.1.0.0</version>
+    <title>MSBuildTasks.ImportTasks</title>
+    <authors>tmori3y2</authors>
+    <owners>tmori3y2</owners>
+    <projectUrl>http://tmori3y2.hatenablog.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <developmentDependency>true</developmentDependency>
+    <description>MSBuild Task to Import Tasks from build folder.</description>
+    <releaseNotes>The first release.</releaseNotes>
+    <copyright>Copyright (C) 2016 tmori3y2</copyright>
+    <tags>MSBuild</tags>
+  </metadata>
+  <files>
+    <file src="nupkg\build\*.*" target="build" />
+    <file src="nupkg\content\build\*.*" target="content\build" />
+    <file src="bin\**\*.*" exclude="**\*.*" />
+  </files>
+</package>

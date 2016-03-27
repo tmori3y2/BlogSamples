@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Edit your project and insert MSBuildTasks.ImportTasksPack.targets below Microsoft.CSharp.props
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="build\MSBuildTasks.ImportTasksPack.targets" Condition="Exists('build\MSBuildTasks.ImportTasksPack.targets')" />
+  -->
+  <Target Name="Build"
+          Condition=" '$(Configuration)' == 'Release' ">
+    <Exec WorkingDirectory="$(ProjectDir)"
+          Command="&quot;$(NuGetExe)&quot; pack $(ProjectName).nuspec -Tool -Prop Configuration=Release -OutputDirectory &quot;$(NuGetDeploy)&quot;" />
+  </Target>
+</Project>
+

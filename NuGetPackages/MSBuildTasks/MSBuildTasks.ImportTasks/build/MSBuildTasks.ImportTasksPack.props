@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Edit your project and insert MSBuildTasks.ImportTasksPack.props above Microsoft.Common.props
+  <Import Project="build\MSBuildTasks.ImportTasksPack.props" Condition="Exists('build\MSBuildTasks.ImportTasksPack.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  -->
+  <PropertyGroup Condition="'$(NuGetExe)'==''">
+    <NuGetExe>$(MSBuildProjectDirectory)\..\..\nuget.exe</NuGetExe>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NuGetDeploy)'==''">
+    <NuGetDeploy>$(MSBuildProjectDirectory)\..\..\NuGetDeploy</NuGetDeploy>
+  </PropertyGroup>
+</Project>
+

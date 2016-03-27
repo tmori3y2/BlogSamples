@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(ImportedTask)'==''">
+    <ImportedTask>$(MSBuildProjectDirectory)\build\MSBuildTasks.ImportedTask</ImportedTask>
+  </PropertyGroup>
+
+  <Import Project="$(ImportedTask).targets" Condition="Exists('$(ImportedTask).targets')"/>
+
+  <!-- for test -->
+  <Target Name="TraceReservedProperties"
+          BeforeTargets="TraceImportTasksPath"
+          Condition="$(TraceReservedPropertiesOn)">
+    <Message Text="MSBuildProjectFullPath: $(MSBuildProjectFullPath)" />
+    <Message Text="MSBuildProjectDirectory: $(MSBuildProjectDirectory)" />
+    <Message Text="MSBuildThisFileFullPath: $(MSBuildThisFileFullPath)" />
+    <Message Text="MSBuildThisFileDirectory: $(MSBuildThisFileDirectory)" />
+    <Message Text="MSBuildStartupDirectory: $(MSBuildStartupDirectory)" />
+  </Target>
+
+  <Target Name="TraceImportTasksPath"
+          AfterTargets="TraceReservedProperties"
+          BeforeTargets="_CheckForInvalidConfigurationAndPlatform"
+          Condition="$(TraceImportTasksPathOn)">
+    <Message Text="MSBuildTasks.ImportTasks.props: $(MSBuildThisFileDirectory)\$(MSBuildThisFileName).props" />
+    <Message Text="MSBuildTasks.ImportTasks.targets: $(MSBuildThisFileFullPath)" />
+    <Message Text="MSBuildTasks.ImportedTask.props: $(ImportedTask).props" />
+    <Message Text="MSBuildTasks.ImportedTask.targets: $(ImportedTask).targets" />
+  </Target>
+</Project>

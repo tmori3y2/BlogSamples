@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(TraceReservedPropertiesOn)'==''">
+    <TraceReservedPropertiesOn>true</TraceReservedPropertiesOn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TraceImportTasksPathOn)'==''">
+    <TraceImportTasksPathOn>true</TraceImportTasksPathOn>
+  </PropertyGroup>
+
+  <!--<Import Project="$(MSBuildProjectDirectory)\build\YourTask.props" Condition="Exists('$(MSBuildProjectDirectory)\build\YourTask.props')"/>-->
+  <!--<Import Project="YourTask.props" Condition="Exists('YourTask.props')"/>-->
+</Project>
+
