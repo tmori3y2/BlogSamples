@@ -51,5 +51,6 @@
   <!--
   <Import Project="YourTask.props" Condition="Exists('YourTask.props')"/>
   -->
+  <Import Project="$(MSBuildProjectDirectory)\targets\*.props" />
 </Project>
 

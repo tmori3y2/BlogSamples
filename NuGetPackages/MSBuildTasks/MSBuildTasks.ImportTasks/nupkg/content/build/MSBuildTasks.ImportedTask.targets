@@ -3,4 +3,5 @@
   <!--
   <Import Project="YourTask.targets" Condition="Exists('YourTask.targets')"/>
   -->
+  <Import Project="$(MSBuildProjectDirectory)\targets\*.targets" />
 </Project>
