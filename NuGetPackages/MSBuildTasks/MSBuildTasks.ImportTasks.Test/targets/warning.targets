@@ -1,0 +1,8 @@
+﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <Target Name="SampleTarget"
+          BeforeTargets="DeployNuPkgFile"
+          Condition=" '$(CreatesNuGetPackage)' == 'true' and '$(Configuration)' == 'Release' ">
+    <Warning Text="This is the sample target automatically imported." />
+  </Target>
+  
+</Project>
