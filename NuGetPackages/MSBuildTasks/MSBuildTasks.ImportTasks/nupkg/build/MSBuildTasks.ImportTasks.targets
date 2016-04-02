@@ -1,29 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition="'$(ImportedTask)'==''">
-    <ImportedTask>$(MSBuildProjectDirectory)\build\MSBuildTasks.ImportedTask</ImportedTask>
-  </PropertyGroup>
+  <!-- NuGet Package Manager inserts MSBuildTasks.ImportTasks.targets below Microsoft.CSharp.targets
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\MSBuildTasks.ImportTasks.x.x.x.x\build\MSBuildTasks.ImportTasks.targets" Condition="Exists('..\..\packages\MSBuildTasks.ImportTasks.x.x.x.x\build\MSBuildTasks.ImportTasks.targets')" />
+  -->
+  <ItemGroup >
+    <PreviousNuPkgFile Include="$(ProjectDir)$(OutDir)*.nupkg" />
+    <NuSpecFile Include="$(ProjectDir)*.nuspec" />
+  </ItemGroup>
+  
+  <Target Name="CleanNuPkgFile"
+          BeforeTargets="BeforeClean;BeforeBuild"
+          Condition=" '$(CreatesNuGetPackage)' == 'true' and '@(PreviousNuPkgFile)' != '' ">
+    <Delete Files="@(PreviousNuPkgFile)"/>
+  </Target>
+  
+  <Target Name="NuSpecProject"
+          BeforeTargets="BeforeBuild"
+          Condition=" '$(CreatesNuGetPackage)' == 'true' and '@(NuSpecFile)' == '' ">
+    <Exec WorkingDirectory="$(ProjectDir)"
+          Command="&quot;$(NuGetExe)&quot; spec" />
+    <Error Text="Add .nuspec file to the project and edit it." />
+  </Target>
+
+  <Target Name="NuGetPack"
+          AfterTargets="AfterBuild"
+          Condition=" '$(CreatesNuGetPackage)' == 'true' and '@(NuSpecFile)' != '' ">
+    <CallTarget Targets="NuGetPackProject"
+                Condition=" '$(NuGetPacksProject)' == 'true'  and '$(NuGetPacksForTool)' == 'false' " />
+    <CallTarget Targets="NuGetPackTool"
+                Condition=" '$(NuGetPacksProject)' == 'true'  and '$(NuGetPacksForTool)' == 'true' " />
+    <CallTarget Targets="NuGetPackNuSpec"
+                Condition=" '$(NuGetPacksProject)' == 'false' " />
+  </Target>
+  
+  <Target Name="NuGetPackProject">
+    <Exec WorkingDirectory="$(ProjectDir)"
+          Command="&quot;$(NuGetExe)&quot; pack -Prop Configuration=$(Configuration) -OutputDirectory &quot;bin\$(Configuration)&quot;" />
+  </Target>
+  <Target Name="NuGetPackTool">
+    <Exec WorkingDirectory="$(ProjectDir)"
+          Command="&quot;$(NuGetExe)&quot; pack -Tool -Prop Configuration=$(Configuration) -OutputDirectory &quot;bin\$(Configuration)&quot;" />
+  </Target>
+  <Target Name="NuGetPackNuSpec">
+    <Exec WorkingDirectory="$(ProjectDir)"
+          Command="&quot;$(NuGetExe)&quot; pack $(ProjectName).nuspec -Prop Configuration=$(Configuration) -OutputDirectory &quot;bin\$(Configuration)&quot;" />
+  </Target>
+  
+  <Target Name="DeployNuPkgFile"
+          AfterTargets="NuGetPack"
+          Condition=" '$(CreatesNuGetPackage)' == 'true' and '$(Configuration)' == 'Release' ">
+    <ItemGroup >
+      <DeployingNuPkgFile Include="$(OutDir)*.nupkg" />
+    </ItemGroup>
+    <Error Condition=" '@(DeployingNuPkgFile)' == '' "
+           Text="Build .nuspec file correctly." />
+    <Error Condition=" '@(DeployingNuPkgFile)' != '' and  Exists('$(NuGetDeploy)\%(DeployingNuPkgFile.Filename)%(DeployingNuPkgFile.Extension)') "
+           Text="Update .nuspec file version." />
+    <Copy Condition=" '@(DeployingNuPkgFile)' != '' "
+          SourceFiles="@(DeployingNuPkgFile)"
+          DestinationFiles="@(DeployingNuPkgFile->'$(NuGetDeploy)\%(Filename)%(Extension)')" />
+  </Target>
 
   <Import Project="$(ImportedTask).targets" Condition="Exists('$(ImportedTask).targets')"/>
-
-  <!-- for test -->
-  <Target Name="TraceReservedProperties"
-          BeforeTargets="TraceImportTasksPath"
-          Condition="$(TraceReservedPropertiesOn)">
-    <Message Text="MSBuildProjectFullPath: $(MSBuildProjectFullPath)" />
-    <Message Text="MSBuildProjectDirectory: $(MSBuildProjectDirectory)" />
-    <Message Text="MSBuildThisFileFullPath: $(MSBuildThisFileFullPath)" />
-    <Message Text="MSBuildThisFileDirectory: $(MSBuildThisFileDirectory)" />
-    <Message Text="MSBuildStartupDirectory: $(MSBuildStartupDirectory)" />
-  </Target>
-
-  <Target Name="TraceImportTasksPath"
-          AfterTargets="TraceReservedProperties"
-          BeforeTargets="_CheckForInvalidConfigurationAndPlatform"
-          Condition="$(TraceImportTasksPathOn)">
-    <Message Text="MSBuildTasks.ImportTasks.props: $(MSBuildThisFileDirectory)\$(MSBuildThisFileName).props" />
-    <Message Text="MSBuildTasks.ImportTasks.targets: $(MSBuildThisFileFullPath)" />
-    <Message Text="MSBuildTasks.ImportedTask.props: $(ImportedTask).props" />
-    <Message Text="MSBuildTasks.ImportedTask.targets: $(ImportedTask).targets" />
-  </Target>
 </Project>

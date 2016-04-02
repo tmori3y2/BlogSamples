@@ -1,8 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- NuGet Package Manager inserts MSBuildTasks.ImportTasks.props above Microsoft.Common.props
+  <Import Project="..\..\packages\MSBuildTasks.ImportTasks.x.x.x.x\build\MSBuildTasks.ImportTasks.props" Condition="Exists('..\..\packages\MSBuildTasks.ImportTasks.x.x.x.x\build\MSBuildTasks.ImportTasks.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  -->
+
   <PropertyGroup Condition="'$(ImportedTask)'==''">
     <ImportedTask>$(MSBuildProjectDirectory)\build\MSBuildTasks.ImportedTask</ImportedTask>
   </PropertyGroup>
 
   <Import Project="$(ImportedTask).props" Condition="Exists('$(ImportedTask).props')"/>
+  
+  <!-- Default Properties -->
+  <PropertyGroup Condition="'$(NuGetExe)'==''">
+    <NuGetExe>$(MSBuildProjectDirectory)\..\..\nuget.exe</NuGetExe>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NuGetDeploy)'==''">
+    <NuGetDeploy>$(MSBuildProjectDirectory)\..\..\NuGetDeploy</NuGetDeploy>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(CreatesNuGetPackage)'==''">
+    <CreatesNuGetPackage>true</CreatesNuGetPackage>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NuGetPacksProject)'==''">
+    <NuGetPacksProject>false</NuGetPacksProject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NuGetPacksForTool)'==''">
+    <NuGetPacksForTool>false</NuGetPacksForTool>
+  </PropertyGroup>
 </Project>

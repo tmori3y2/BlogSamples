@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MSBuildTasks.ImportTasks.Test")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This is the test project of MSBuildTasks.ImportTasks")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("tmori3y2")]
 [assembly: AssemblyProduct("MSBuildTasks.ImportTasks.Test")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright (C) 2016 tmori3y2.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

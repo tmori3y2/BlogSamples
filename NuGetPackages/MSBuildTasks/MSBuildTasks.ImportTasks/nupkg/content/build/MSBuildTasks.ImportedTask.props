@@ -1,13 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition="'$(TraceReservedPropertiesOn)'==''">
-    <TraceReservedPropertiesOn>true</TraceReservedPropertiesOn>
+  <!--
+  ** Default Properties **
+  <PropertyGroup Condition="'$(NuGetExe)'==''">
+    <NuGetExe>$(MSBuildProjectDirectory)\..\..\nuget.exe</NuGetExe>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TraceImportTasksPathOn)'==''">
-    <TraceImportTasksPathOn>true</TraceImportTasksPathOn>
+  <PropertyGroup Condition="'$(NuGetDeploy)'==''">
+    <NuGetDeploy>$(MSBuildProjectDirectory)\..\..\NuGetDeploy</NuGetDeploy>
   </PropertyGroup>
-
-  <!--<Import Project="$(MSBuildProjectDirectory)\build\YourTask.props" Condition="Exists('$(MSBuildProjectDirectory)\build\YourTask.props')"/>-->
-  <!--<Import Project="YourTask.props" Condition="Exists('YourTask.props')"/>-->
+  <PropertyGroup Condition="'$(CreatesNuGetPackage)'==''">
+    <CreatesNuGetPackage>true</CreatesNuGetPackage>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NuGetPacksProject)'==''">
+    <NuGetPacksProject>false</NuGetPacksProject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NuGetPacksForTool)'==''">
+    <NuGetPacksForTool>false</NuGetPacksForTool>
+  </PropertyGroup>
+  ** Edit the properties like below examples.
+  -->
+  <!--
+  ** Packs the project assembly. **
+  <PropertyGroup>
+    <CreatesNuGetPackage>true</CreatesNuGetPackage>
+    <NuGetPacksProject>true</NuGetPacksProject>
+    <NuGetPacksForTool>false</NuGetPacksForTool>
+  </PropertyGroup>
+  -->
+  <!--
+  ** Packs the project assembly for tool. **
+  <PropertyGroup>
+    <CreatesNuGetPackage>true</CreatesNuGetPackage>
+    <NuGetPacksProject>true</NuGetPacksProject>
+    <NuGetPacksForTool>true</NuGetPacksForTool>
+  </PropertyGroup>
+  -->
+  <!--
+  ** Packs the .nuspec file for contents. **
+  <PropertyGroup>
+    <CreatesNuGetPackage>true</CreatesNuGetPackage>
+    <NuGetPacksProject>false</NuGetPacksProject>
+    <NuGetPacksForTool>false</NuGetPacksForTool>
+  </PropertyGroup>
+  -->
+  <PropertyGroup>
+    <CreatesNuGetPackage>true</CreatesNuGetPackage>
+    <NuGetPacksProject>true</NuGetPacksProject>
+    <NuGetPacksForTool>false</NuGetPacksForTool>
+  </PropertyGroup>
+  <!--
+  <Import Project="YourTask.props" Condition="Exists('YourTask.props')"/>
+  -->
 </Project>
 
