@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyReactivePropertyControls", "MyReactivePropertyControls\MyReactivePropertyControls.csproj", "{FD11DB64-24FB-45EE-9F8C-C0038417B41C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyReactivePropertyControlTest", "MyReactivePropertyControlTest\MyReactivePropertyControlTest.csproj", "{356220AE-F744-4DCE-807A-D58CDD37F957}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD11DB64-24FB-45EE-9F8C-C0038417B41C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD11DB64-24FB-45EE-9F8C-C0038417B41C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD11DB64-24FB-45EE-9F8C-C0038417B41C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD11DB64-24FB-45EE-9F8C-C0038417B41C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{356220AE-F744-4DCE-807A-D58CDD37F957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{356220AE-F744-4DCE-807A-D58CDD37F957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{356220AE-F744-4DCE-807A-D58CDD37F957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{356220AE-F744-4DCE-807A-D58CDD37F957}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

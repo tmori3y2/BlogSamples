@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="MyReactivePropertyControls.Views.CalculatorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ViewModels="clr-namespace:MyReactivePropertyControls.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance {x:Type ViewModels:CalculatorViewModel}, IsDesignTimeCreatable=True}"
+             d:DesignHeight="200" d:DesignWidth="400"
+             Margin="3">
+    <UserControl.Resources>
+        <ResourceDictionary Source="MyControlStyles.xaml"/>
+    </UserControl.Resources>
+    <StackPanel Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+        <StackPanel Width="Auto" HorizontalAlignment="Left">
+            <StackPanel Width="Auto" Orientation="Horizontal">
+                <Label Content="Decimals" />
+                <TextBox Text="{Binding Decimals.Value}" />
+            </StackPanel>
+            <StackPanel Width="Auto" Orientation="Horizontal">
+                <Label Content="Upper Bound" />
+                <TextBox Text="{Binding UpperBound.Value}" />
+            </StackPanel>
+            <StackPanel Width="Auto" Orientation="Horizontal">
+                <Button Content="Update Meta Data" Command="{Binding UpdateMetaDataCommand}" />
+            </StackPanel>
+            <CheckBox Content="CanUpdateBinding" IsChecked="{Binding CanUpdateBinding.Value}"/>
+            <CheckBox Content="HasErrors" IsEnabled="False" IsChecked="{Binding HasErrors.Value, Mode=OneWay}"/>
+            <CheckBox Content="IsDirty" IsChecked="{Binding IsDirty.Value}"/>
+            <CheckBox Content="IsReadOnly" IsChecked="{Binding IsReadOnly.Value}"/>
+        </StackPanel>
+        <StackPanel Width="Auto" HorizontalAlignment="Left">
+            <StackPanel Width="Auto" Orientation="Horizontal">
+                <Label Content="X" />
+                <TextBox Text="{Binding X.Value}" IsReadOnly="{Binding IsReadOnly.Value}" />
+            </StackPanel>
+            <StackPanel Width="Auto" Orientation="Horizontal">
+                <Label Content="Y" />
+                <TextBox Text="{Binding Y.Value}" IsReadOnly="{Binding IsReadOnly.Value}" />
+            </StackPanel>
+            <StackPanel Width="Auto" Orientation="Horizontal">
+                <Label Content="Z" />
+                <TextBlock Text="{Binding Z.Value}" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>
