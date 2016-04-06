@@ -22,13 +22,15 @@ http://tmori3y2.hatenablog.com/entry/2016/02/01/022328
 
 http://tmori3y2.hatenablog.com/entry/2016/02/03/003300
 
+* Sample Wpf control using MVVM pattern by ReactiveProperty
 
-Tag:[Article_20160203A](https://github.com/tmori3y2/BlogSamples/tree/Article_20160203A)
+Tag:[Article_20160203A](https://github.com/tmori3y2/BlogSamples/tree/Article_20160203A) & [Article_20160203B](https://github.com/tmori3y2/BlogSamples/tree/Article_20160203B)
 
 Blog article:
 
 http://tmori3y2.hatenablog.com/entry/2016/02/03/022453
 
+* Sample Wpf control using MVVM pattern by ReactiveProperty
 
 ## [NuGetPackages](https://github.com/tmori3y2/BlogSamples/tree/master/NuGetPackages)
 

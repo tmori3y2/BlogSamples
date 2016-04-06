@@ -21,8 +21,6 @@ namespace MyReactivePropertyControls.ViewModels
     public class CalculatorViewModel : IDisposable
     {
         private CompositeDisposable disposables = new CompositeDisposable();
-        private ReentrantBlocker blockerX = new ReentrantBlocker();
-        private ReentrantBlocker blockerY = new ReentrantBlocker();
         private CalculatorModel model;
 
         public ReactiveProperty<bool> CanUpdateBinding { get; private set; }
@@ -74,7 +72,7 @@ namespace MyReactivePropertyControls.ViewModels
                 .Do(s =>
                     Debug.WriteLine("CalculatorViewModel.X: {0}({1})", (object)s, (object)"Model=>ViewModel"))
                 // Initializes the property.
-                .ToReactiveProperty(string.Empty, ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+                .ToReactiveProperty()
                 // Disposes this property if unused.
                 .AddTo(disposables)
                 // Sets validater.
@@ -86,20 +84,17 @@ namespace MyReactivePropertyControls.ViewModels
                 .Do(s =>
                     Debug.WriteLine("CalculatorViewModel.X: {0}({1})", (object)s, (object)"View=>ViewModel"))
                 .Where(_ =>
-                    CanUpdateBinding.Value && !blockerX.Blocked && !X.HasErrors)
+                    CanUpdateBinding.Value && !X.HasErrors)
                 // Converts from string to decimal.
                 .Select(s =>
                     s.ConvertBack(model.Decimals.Value))
                 // Subscribes to source and reformats target if source not changed. 
                 .Subscribe(d =>
                 {
-                    using (blockerX.Enter())
-                    {
-                        // Subscribes to source.
-                        model.X.Value = d;
-                        // Reformats target if source not changed.
-                        X.Value = model.X.Value.Convert(model.Decimals.Value);
-                    }
+                    // Subscribes to source.
+                    model.X.Value = d;
+                    // Reformats target if source not changed.
+                    X.Value = model.X.Value.Convert(model.Decimals.Value);
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
@@ -116,7 +111,7 @@ namespace MyReactivePropertyControls.ViewModels
                 .Do(s =>
                     Debug.WriteLine("CalculatorViewModel.Y: {0}({1})", (object)s, (object)"Model=>ViewModel"))
                 // Initializes the property.
-                .ToReactiveProperty(string.Empty, ReactivePropertyMode.RaiseLatestValueOnSubscribe)
+                .ToReactiveProperty()
                 // Disposes this property if unused.
                 .AddTo(disposables)
                 // Sets validater.
@@ -128,20 +123,17 @@ namespace MyReactivePropertyControls.ViewModels
                 .Do(s =>
                     Debug.WriteLine("CalculatorViewModel.Y: {0}({1})", (object)s, (object)"View=>ViewModel"))
                 .Where(_ =>
-                    CanUpdateBinding.Value && !blockerY.Blocked && !Y.HasErrors)
-                 // Converts from string to decimal.
+                    CanUpdateBinding.Value && !Y.HasErrors)
+                // Converts from string to decimal.
                 .Select(s =>
                     s.ConvertBack(model.Decimals.Value))
                 // Subscribes to source and reformats target if source not changed. 
                 .Subscribe(d =>
                 {
-                    using (blockerY.Enter())
-                    {
-                        // Subscribes to source.
-                        model.Y.Value = d;
-                        // Reformats target if source not changed.
-                        Y.Value = model.Y.Value.Convert(model.Decimals.Value);
-                    }
+                    // Subscribes to source.
+                    model.Y.Value = d;
+                    // Reformats target if source not changed.
+                    Y.Value = model.Y.Value.Convert(model.Decimals.Value);
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
@@ -151,7 +143,7 @@ namespace MyReactivePropertyControls.ViewModels
                     CanUpdateBinding.Value && !X.HasErrors && Y.HasErrors)
                 .Subscribe(_ =>
                 {
-                    Y.Value = Y.Value;
+                    Y.ForceNotify();
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
@@ -161,7 +153,7 @@ namespace MyReactivePropertyControls.ViewModels
                     CanUpdateBinding.Value && !Y.HasErrors && X.HasErrors)
                 .Subscribe(_ =>
                 {
-                    X.Value = X.Value;
+                    X.ForceNotify();
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
