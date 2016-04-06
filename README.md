@@ -10,8 +10,6 @@ Sample Controls
 
 ###[MyReactivePropertyControls](https://github.com/tmori3y2/BlogSamples/tree/master/MySampleControls/MyReactivePropertyControls)
 
-#### [MyReactivePropertyControls](https://github.com/tmori3y2/BlogSamples/tree/master/MySampleControls/MyReactivePropertyControls/MyReactivePropertyControls)
-
 Tag:[Article_20160201](https://github.com/tmori3y2/BlogSamples/tree/Article_20160201)
 
 Blog article:
@@ -21,6 +19,15 @@ http://tmori3y2.hatenablog.com/entry/2016/01/30/124259
 http://tmori3y2.hatenablog.com/entry/2016/01/30/164848
 
 http://tmori3y2.hatenablog.com/entry/2016/02/01/022328
+
+http://tmori3y2.hatenablog.com/entry/2016/02/03/003300
+
+
+Tag:[Article_20160203](https://github.com/tmori3y2/BlogSamples/tree/Article_20160203)
+
+Blog article:
+
+http://tmori3y2.hatenablog.com/entry/2016/02/03/022453
 
 
 ## [NuGetPackages](https://github.com/tmori3y2/BlogSamples/tree/master/NuGetPackages)

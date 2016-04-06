@@ -21,6 +21,9 @@ namespace MyReactivePropertyControls.ViewModels
     public class CalculatorViewModel : IDisposable
     {
         private CompositeDisposable disposables = new CompositeDisposable();
+        private ReentrantBlocker blocker = new ReentrantBlocker();
+        private ReentrantBlocker blockerX = new ReentrantBlocker();
+        private ReentrantBlocker blockerY = new ReentrantBlocker();
         private CalculatorModel model;
 
         public ReactiveProperty<bool> CanUpdateBinding { get; private set; }
@@ -70,9 +73,9 @@ namespace MyReactivePropertyControls.ViewModels
                 .Select(d =>
                     d.Convert(model.Decimals.Value))
                 .Do(s =>
-                    Debug.WriteLine("CalculatorViewModel.X: {0}({1})", (object)s, (object)"Model=>ViewModel"))
+                    Debug.WriteLine("CalculatorViewModel.X: {0}({1})", s, "Converted"))
                 // Initializes the property.
-                .ToReactiveProperty()
+                .ToReactiveProperty(string.Empty, ReactivePropertyMode.RaiseLatestValueOnSubscribe)
                 // Disposes this property if unused.
                 .AddTo(disposables)
                 // Sets validater.
@@ -82,19 +85,24 @@ namespace MyReactivePropertyControls.ViewModels
             X
                 // Updates this property by the view.
                 .Do(s =>
-                    Debug.WriteLine("CalculatorViewModel.X: {0}({1})", (object)s, (object)"View=>ViewModel"))
+                    Debug.WriteLine("CalculatorViewModel.X: {0}({1})", s, "Changed"))
                 .Where(_ =>
-                    CanUpdateBinding.Value && !X.HasErrors)
-                // Converts from string to decimal.
+                    CanUpdateBinding.Value && !blockerX.Blocked && !X.HasErrors)
                 .Select(s =>
                     s.ConvertBack(model.Decimals.Value))
+                .Do(d =>
+                    Debug.WriteLine("CalculatorViewModel.X: {0}({1})", d, "Converted back"))
                 // Subscribes to source and reformats target if source not changed. 
                 .Subscribe(d =>
                 {
-                    // Subscribes to source.
-                    model.X.Value = d;
-                    // Reformats target if source not changed.
-                    X.Value = model.X.Value.Convert(model.Decimals.Value);
+                    using (blockerX.Enter())
+                    {
+                        // Converts from string to decimal.
+                        // Subscribes to source.
+                        model.X.Value = d;
+                        // Reformats target if source not changed.
+                        X.Value = model.X.Value.Convert(model.Decimals.Value);
+                    }
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
@@ -109,9 +117,9 @@ namespace MyReactivePropertyControls.ViewModels
                 .Select(d =>
                     d.Convert(model.Decimals.Value))
                 .Do(s =>
-                    Debug.WriteLine("CalculatorViewModel.Y: {0}({1})", (object)s, (object)"Model=>ViewModel"))
+                    Debug.WriteLine("CalculatorViewModel.Y: {0}({1})", s, "Converted"))
                 // Initializes the property.
-                .ToReactiveProperty()
+                .ToReactiveProperty(string.Empty, ReactivePropertyMode.RaiseLatestValueOnSubscribe)
                 // Disposes this property if unused.
                 .AddTo(disposables)
                 // Sets validater.
@@ -121,19 +129,44 @@ namespace MyReactivePropertyControls.ViewModels
             Y
                 // Updates this property by the view.
                 .Do(s =>
-                    Debug.WriteLine("CalculatorViewModel.Y: {0}({1})", (object)s, (object)"View=>ViewModel"))
+                    Debug.WriteLine("CalculatorViewModel.Y: {0}({1})", s, "Changed"))
                 .Where(_ =>
-                    CanUpdateBinding.Value && !Y.HasErrors)
-                // Converts from string to decimal.
+                    CanUpdateBinding.Value && !blockerY.Blocked && !Y.HasErrors)
                 .Select(s =>
                     s.ConvertBack(model.Decimals.Value))
+                .Do(d =>
+                    Debug.WriteLine("CalculatorViewModel.Y: {0}({1})", d, "Converted back"))
                 // Subscribes to source and reformats target if source not changed. 
                 .Subscribe(d =>
                 {
-                    // Subscribes to source.
-                    model.Y.Value = d;
-                    // Reformats target if source not changed.
-                    Y.Value = model.Y.Value.Convert(model.Decimals.Value);
+                    using (blockerY.Enter())
+                    {
+                        // Converts from string to decimal.
+                        // Subscribes to source.
+                        model.Y.Value = d;
+                        // Reformats target if source not changed.
+                        Y.Value = model.Y.Value.Convert(model.Decimals.Value);
+                    }
+                })
+                // Disposes the delegate if unused.
+                .AddTo(disposables);
+
+            X
+                .Where(_ =>
+                    CanUpdateBinding.Value && !X.HasErrors && Y.HasErrors)
+                .Subscribe(_ =>
+                {
+                    Y.Value = Y.Value;
+                })
+                // Disposes the delegate if unused.
+                .AddTo(disposables);
+
+            Y
+                .Where(_ =>
+                    CanUpdateBinding.Value && !Y.HasErrors && X.HasErrors)
+                .Subscribe(_ =>
+                {
+                    X.Value = X.Value;
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
@@ -148,7 +181,7 @@ namespace MyReactivePropertyControls.ViewModels
                 .Select(d =>
                     d.Convert(model.Decimals.Value))
                 .Do(s =>
-                    Debug.WriteLine("CalculatorViewModel.Z: {0}({1})", (object)s, (object)"Model=>ViewModel"))
+                    Debug.WriteLine("CalculatorViewModel.Z: {0}({1})", s, "Converted"))
                 // Initializes the property.
                 .ToReadOnlyReactiveProperty()
                 // Disposes this property if unused.
@@ -171,8 +204,8 @@ namespace MyReactivePropertyControls.ViewModels
             IsDirty =
                 new[]
                 {
-                    model.X.ChangedAsObservable(false),
-                    model.Y.ChangedAsObservable(false)
+                    X.ChangedAsObservable(false),
+                    Y.ChangedAsObservable(false)
                 }
                 .CombineLatestValuesAreAllFalse()
                 .Select(b =>
@@ -198,7 +231,7 @@ namespace MyReactivePropertyControls.ViewModels
                 .Select(i =>
                     i.Convert())
                 .Do(s =>
-                    Debug.WriteLine("CalculatorViewModel.Decimals: {0}({1})", (object)s, (object)"Model=>ViewModel"))
+                    Debug.WriteLine("CalculatorViewModel.Decimals: {0}({1})", s, "Converted"))
                 // Initializes the property.
                 .ToReactiveProperty()
                 // Disposes this property if unused.
@@ -210,19 +243,23 @@ namespace MyReactivePropertyControls.ViewModels
             Decimals
                 // Updates this property by the view. (debug)
                 .Do(s =>
-                    Debug.WriteLine("CalculatorViewModel.Decimals: {0}({1})", (object)s, (object)"View=>ViewModel"))
+                    Debug.WriteLine("CalculatorViewModel.Decimals: {0}({1})", s, "Changed"))
                 .Where(_ =>
-                    !Decimals.HasErrors)
-                // Converts back from string to integer.
+                    !blocker.Blocked && !Decimals.HasErrors)
                 .Select(s =>
                     s.ConvertBack())
-                // Subscribes to source and reformats target if source not changed. 
+                .Do(d =>
+                    Debug.WriteLine("CalculatorViewModel.Decimals: {0}({1})", d, "Converted back"))                // Subscribes to source and reformats target if source not changed. 
                 .Subscribe(i =>
                 {
-                    // Subscribes to source.
-                    model.Decimals.Value = i;
-                    // Reformats target if source not changed.
-                    Decimals.Value = model.Decimals.Value.Convert();
+                    using (blocker.Enter())
+                    {
+                        // Converts back from string to integer.
+                        // Subscribes to source.
+                        model.Decimals.Value = i;
+                        // Reformats target if source not changed.
+                        Decimals.Value = model.Decimals.Value.Convert();
+                    }
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
@@ -233,7 +270,7 @@ namespace MyReactivePropertyControls.ViewModels
                 // Converts from decimal to string.
                 .CombineLatest(model.Decimals, (d, decimals) => d.Convert(decimals))
                 .Do(s =>
-                    Debug.WriteLine("CalculatorViewModel.UpperBound: {0}({1})", (object)s, (object)"Model=>ViewModel"))
+                    Debug.WriteLine("CalculatorViewModel.UpperBound: {0}({1})", s, "Converted"))
                 // Initializes the property.
                 .ToReactiveProperty()
                 // Disposes this property if unused.
@@ -245,22 +282,34 @@ namespace MyReactivePropertyControls.ViewModels
             UpperBound
                 // Updates this property by the view.
                 .Do(s =>
-                    Debug.WriteLine("CalculatorViewModel.UpperBound: {0}({1})", (object)s, (object)"View=>ViewModel"))
+                    Debug.WriteLine("CalculatorViewModel.UpperBound: {0}({1})", s, "Changed"))
                 .Where(_ =>
-                    !UpperBound.HasErrors)
-                // Converts from string to decimal.
+                    !blocker.Blocked && !UpperBound.HasErrors)
                 .Select(s =>
                     s.ConvertBack(model.Decimals.Value))
-                // Subscribes to source and reformats target if source not changed. 
+                .Do(d =>
+                    Debug.WriteLine("CalculatorViewModel.UpperBound: {0}({1})", d, "Converted back"))                // Subscribes to source and reformats target if source not changed. 
                 .Subscribe(d =>
                 {
-                    // Subscribes to source.
-                    model.UpperBound.Value = d;
-                    // Reformats target if source not changed.
-                    UpperBound.Value = model.UpperBound.Value.Convert(model.Decimals.Value);
+                    using (blocker.Enter())
+                    {
+                        // Converts from string to decimal.
+                        // Subscribes to source.
+                        model.UpperBound.Value = d;
+                        // Reformats target if source not changed.
+                        UpperBound.Value = model.UpperBound.Value.Convert(model.Decimals.Value);
+                    }
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
+
+#if DEBUG
+            Z
+                .Subscribe(s =>
+                    Debug.WriteLine("CalculatorViewModel.Z: {0}({1})", s, "Changed"))
+                // Disposes the delegate if unused.
+                .AddTo(disposables);
+#endif
 
             UpdateMetaDataCommand =
                 new[]
@@ -289,7 +338,6 @@ namespace MyReactivePropertyControls.ViewModels
         public void Dispose()
         {
             disposables.Dispose();
-            model.Dispose();
         }
 
         #endregion
