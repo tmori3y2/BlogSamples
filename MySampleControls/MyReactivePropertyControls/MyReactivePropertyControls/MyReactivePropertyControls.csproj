@@ -84,6 +84,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\CalculatorViewModel.cs" />
+    <Compile Include="ViewModels\ReentrantBlocker.cs" />
     <Compile Include="Views\CalculatorControl.xaml.cs">
       <DependentUpon>CalculatorControl.xaml</DependentUpon>
     </Compile>
