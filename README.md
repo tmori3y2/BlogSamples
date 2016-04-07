@@ -30,6 +30,8 @@ Blog article:
 
 http://tmori3y2.hatenablog.com/entry/2016/02/03/022453
 
+http://tmori3y2.hatenablog.com/entry/2016/02/05/213922
+
 * Sample Wpf control using MVVM pattern by ReactiveProperty
 
 ## [NuGetPackages](https://github.com/tmori3y2/BlogSamples/tree/master/NuGetPackages)
