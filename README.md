@@ -61,5 +61,16 @@ NuGet Package Sample of [Automatic import of msbuild targets and props files](ht
 * includes optional MSBuild targets to create NuGet Package of assembly/tool/contents
 
 
+Tag:[Article_20160410](https://github.com/tmori3y2/BlogSamples/tree/Article_20160410)
+
+Blog article: http://tmori3y2.hatenablog.com/entry/2016/04/10/215851
+
+NuGet Package Sample of [Automatic import of msbuild targets and props files](https://docs.nuget.org/release-notes/nuget-2.5#automatic-import-of-msbuild-targets-and-props-files)
+
+* Installs and imports another MSBuild Target to import other targets
+* includes optional MSBuild targets to create NuGet Package of assembly/tool/contents
+* Updates .nuspec template
+
+
 
 
