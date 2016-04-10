@@ -8,6 +8,9 @@
   <PropertyGroup Condition="'$(NuGetDeploy)'==''">
     <NuGetDeploy>$(MSBuildProjectDirectory)\..\..\NuGetDeploy</NuGetDeploy>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(NuSpecFile)'==''">
+    <NuSpecFile>$(MSBuildProjectName).nuspec</NuSpecFile>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(CreatesNuGetPackage)'==''">
     <CreatesNuGetPackage>true</CreatesNuGetPackage>
   </PropertyGroup>
