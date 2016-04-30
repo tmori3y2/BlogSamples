@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="MyCollectionControls.Views.MyDataGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ViewModels="clr-namespace:MyCollectionControls.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance {x:Type ViewModels:MyCollectionViewModel}, IsDesignTimeCreatable=True}"
+             d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary Source="MyControlStyles.xaml"/>
+    </UserControl.Resources>
+    <StackPanel Orientation="Vertical">
+        <StackPanel Width="Auto" Orientation="Horizontal">
+            <CheckBox Content="IsReadOnly" IsChecked="{Binding IsReadOnly.Value}"/>
+            <CheckBox Content="HasErrors" IsEnabled="False" IsChecked="{Binding HasErrors.Value, Mode=OneWay}"/>
+            <CheckBox Content="IsDirty" IsChecked="{Binding IsDirty.Value}"/>
+        </StackPanel>
+        <DataGrid Height="175"
+                  Width="400"
+                  CanUserReorderColumns="False"
+                  CanUserSortColumns="False"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  ItemsSource="{Binding Points}"
+                  SelectedIndex="{Binding CurrentIndex.Value}"
+                  IsReadOnly="{Binding IsReadOnly.Value}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add row" Command="{Binding AddRowCommand}" />
+                    <MenuItem Header="Insert row above" Command="{Binding InsertRowAboveCommand}" />
+                    <MenuItem Header="Insert row below" Command="{Binding InsertRowBelowCommand}" />
+                    <MenuItem Header="Delete rows" Command="{Binding DeleteRowsCommand}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="X"
+                                    MinWidth="50"
+                                    Width="180"
+                                    ElementStyle="{StaticResource dataGridTextBlockStyle}"
+                                    EditingElementStyle="{StaticResource dataGridTextBoxStyle}"
+                                    Binding="{Binding X.Value, UpdateSourceTrigger=LostFocus}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Y"
+                                    MinWidth="50"
+                                    Width="180"
+                                    ElementStyle="{StaticResource dataGridTextBlockStyle}"
+                                    EditingElementStyle="{StaticResource dataGridTextBoxStyle}"
+                                    Binding="{Binding Y.Value, UpdateSourceTrigger=LostFocus}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Text="{Binding LastErrorMessage.Value}"
+                   Width="Auto"
+                   Foreground="Red" />
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>http://tmori3y2.hatenablog.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>My sample extensions for my blog articles.</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>ReactiveProperty Rx</tags>
+    <dependencies>
+      <dependency id="Rx-Interfaces" version="[2.2.5,)" />
+      <dependency id="Rx-Core" version="[2.2.5,)" />
+      <dependency id="Rx-Linq" version="[2.2.5,)" />
+      <dependency id="Rx-PlatformServices" version="[2.2.5,)" />
+      <dependency id="Rx-Main" version="[2.2.5,)" />
+      <dependency id="ReactiveProperty" version="[2.5,)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\$id$.pdb" target="lib\portable-net45+win+wpa81+wp80" />
+  </files>
+</package>
