@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,11 +9,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MySampleExtensions.Wpf")]
 [assembly: AssemblyDescription("My sample extensions for WPF")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("tmori2y2")]
+[assembly: AssemblyCompany("tmori3y2")]
 [assembly: AssemblyProduct("MySampleExtensions.Wpf")]
 [assembly: AssemblyCopyright("Copyright (C) 2016 tmori3y2")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
+[assembly: CLSCompliant(true)]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -32,4 +35,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.1.3")]
+[assembly: AssemblyVersion("0.1.1.4")]

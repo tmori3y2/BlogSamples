@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dictionary>
+  <Words>
+    <Recognized>
+      <!-- ActiveX: Ax/ax -->
+      <!-- System.Windows.Forms.AxHost -->
+      <!-- Clears CA1709. -->
+      <Word>ax</Word>
+      <!-- Model-View-ViewModel: Mvvm/mvvm -->
+      <!-- Clears CA1704. -->
+      <Word>mvvm</Word>
+      <!-- Reactive Extensions: Rx/rx -->
+      <!-- Clears CA1709. -->
+      <Word>rx</Word>
+      <!-- Multi Select: Multiselect/multiselect -->
+      <!-- Microsoft.Win32.OpenFileDialog.Multiselect -->
+      <!-- Clears CA1702. -->
+      <Word>multiselect</Word>
+    </Recognized>
+    <DiscreteExceptions>
+      <!-- Clears CA1702. -->
+      <Term>multiselect</Term>
+    </DiscreteExceptions>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <!-- Window Message -->
+      <!-- Ignore CA1707 by .ruleset -->
+      <!-- WM_SETFOCUS -->
+      <Acronym>SETFOCUS</Acronym>
+      <!-- WM_PARENTNOTIFY -->
+      <Acronym>PARENTNOTIFY</Acronym>
+      <!-- WM_KILLFOCUS -->
+      <Acronym>KILLFOCUS</Acronym>
+      <!-- WM_CLOSE -->
+      <Acronym>CLOSE</Acronym>
+      <!-- WM_SIZE -->
+      <Acronym>SIZE</Acronym>
+      <!-- WM_DESTROY -->
+      <Acronym>DESTROY</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>
