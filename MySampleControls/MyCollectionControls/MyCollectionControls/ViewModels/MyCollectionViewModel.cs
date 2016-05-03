@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace MyCollectionControls.ViewModels
     public class MyCollectionViewModel : IDisposable
     {
         private CompositeDisposable disposables = new CompositeDisposable();
+        private ReentrantBlocker blocker = new ReentrantBlocker();
         private MyCollectionModel model;
 
         public ReadOnlyReactiveCollection<PointViewModel> Points { get; private set; }
@@ -62,6 +64,86 @@ namespace MyCollectionControls.ViewModels
                 // Initializes the collection.
                 .ToReadOnlyReactiveCollection(m => new PointViewModel(m))
                 // Disposes this collection if unused.
+                .AddTo(disposables);
+
+            Points
+                .ObserveAddChangedItems()
+                .Subscribe(vms =>
+                {
+                    vms.ToList()
+                    .ForEach(vm =>
+                    {
+                        vm.X
+                        .SetValidateNotifyError(s =>
+                        {
+                            NumberStyles style = NumberStyles.Number & ~NumberStyles.AllowTrailingSign;
+                            IFormatProvider provider = CultureInfo.CurrentUICulture;
+
+                            decimal input = decimal.Zero;
+                            if (!decimal.TryParse(s, style, provider, out input))
+                            {
+                                return null;
+                            }
+
+                            var list = model.Points
+                                .Select((p, i) =>
+                                {
+                                    decimal value = decimal.Zero;
+                                    if (Points[i] == vm)
+                                    {
+                                        return input;
+                                    }
+                                    if (Points[i].X.HasErrors && decimal.TryParse(Points[i].X.Value, style, provider, out value))
+                                    {
+                                        return value;
+                                    }
+                                    else
+                                    {
+                                        return p.X.Value;
+                                    }
+                                })
+                                .ToList();
+
+                            var count = list
+                                .Where(x => x == input)
+                                .Count();
+
+                            if (count > 1)
+                            {
+                                return "Cannot set the duplicate X.";
+                            }
+                            else if (!blocker.Blocked)
+                            {
+                                using (blocker.Enter())
+                                {
+                                    Points
+                                        .Where(p =>
+                                            p.X.HasErrors && (p != vm))
+                                        .ToList()
+                                        .ForEach(p =>
+                                            p.X.ForceNotify());
+                                }
+                            }
+                            return null;
+                        });
+                    });
+                })
+                .AddTo(disposables);
+
+            Points
+                .ObserveRemoveChangedItems()
+                .Subscribe(_ =>
+                {
+                    using (blocker.Enter())
+                    {
+                        Points
+                            .Where(p =>
+                                p.X.HasErrors)
+                            .ToList()
+                            .ForEach(p =>
+                                p.X.ForceNotify());
+                    }
+                })
                 .AddTo(disposables);
         }
 
@@ -200,12 +282,8 @@ namespace MyCollectionControls.ViewModels
 
             CanDeleteRows =
                 // Observes the dependent properties.
-                new[]
-                {
-                    CanExecuteCommands,
-                    model.CanDeleteRows
-                }
-                .CombineLatestValuesAreAllTrue()
+                model.CanDeleteRows
+                .CombineLatest(IsReadOnly, (canDeleteRows, isReadOnly) => canDeleteRows && !isReadOnly)
                 .CombineLatest(CurrentIndex, (b, i) => b && (0 <= i))
                 // Initializes the property.
                 .ToReadOnlyReactiveProperty()
