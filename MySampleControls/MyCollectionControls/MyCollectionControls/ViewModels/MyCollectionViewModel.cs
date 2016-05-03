@@ -36,6 +36,7 @@ namespace MyCollectionControls.ViewModels
         public ReactiveCommand InsertRowAboveCommand { get; private set; }
         public ReactiveCommand InsertRowBelowCommand { get; private set; }
         public ReactiveCommand DeleteRowsCommand { get; private set; }
+        public ReactiveCommand<string> ImportFileCommand { get; private set; }
 
         public ReactiveProperty<bool> HasErrors { get; private set; }
         public ReactiveProperty<bool> IsDirty { get; private set; }
@@ -278,6 +279,23 @@ namespace MyCollectionControls.ViewModels
                 .Subscribe(_ =>
                 {
                     model.DeleteRows(CurrentIndex.Value);
+                })
+                .AddTo(disposables);
+
+            ImportFileCommand =
+                // Observes the dependent property.
+                CanExecuteCommands
+                // Initializes the command.
+                .ToReactiveCommand<string>()
+                // Disposes this command if unused.
+                .AddTo(disposables);
+
+            ImportFileCommand
+                .Where(_ =>
+                    CanExecuteCommands.Value)
+                .Subscribe(s =>
+                {
+                    model.ImportFile(s);
                 })
                 .AddTo(disposables);
         }

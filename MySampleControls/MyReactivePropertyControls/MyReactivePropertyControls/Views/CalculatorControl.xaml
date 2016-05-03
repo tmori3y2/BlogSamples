@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ViewModels="clr-namespace:MyReactivePropertyControls.ViewModels"
+             xmlns:MySampleExtensionsWpf="clr-namespace:MySampleExtensions.Wpf;assembly=MySampleExtensions.Wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type ViewModels:CalculatorViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="200" d:DesignWidth="400"
              Margin="3">
     <UserControl.Resources>
-        <ResourceDictionary Source="MyControlStyles.xaml"/>
+        <ResourceDictionary Source="/MyReactivePropertyControls;component/Styles/MyControlStyles.xaml"/>
     </UserControl.Resources>
     <StackPanel Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
         <StackPanel Width="Auto" HorizontalAlignment="Left">

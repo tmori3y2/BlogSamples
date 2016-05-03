@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -123,6 +124,18 @@ namespace MyCollectionControls.Models
             }
         }
 
+        private bool CanImportFile()
+        {
+            if (Points != null && PointCount != null && LastErrorMessage != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void AddRow()
         {
             if (CanAddRowBody())
@@ -172,6 +185,19 @@ namespace MyCollectionControls.Models
             else if (LastErrorMessage != null)
             {
                 LastErrorMessage.Value = Resources.CannotDeleteRowsString;
+            }
+        }
+
+        public void ImportFile(string path)
+        {
+            if (CanImportFile() && File.Exists(path))
+            {
+                Points.ClearOnScheduler();
+                LastErrorMessage.Value = string.Empty;
+            }
+            else if (LastErrorMessage != null)
+            {
+                LastErrorMessage.Value = Resources.CannotImportFileString;
             }
         }
 

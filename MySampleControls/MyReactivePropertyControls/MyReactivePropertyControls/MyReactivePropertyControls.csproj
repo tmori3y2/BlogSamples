@@ -32,6 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySampleExtensions, Version=0.1.1.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MySampleExtensions.0.1.1.4\lib\portable-net45+win+wpa81+wp80\MySampleExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySampleExtensions.Wpf, Version=0.1.1.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MySampleExtensions.Wpf.0.1.1.3\lib\net45\MySampleExtensions.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ReactiveProperty, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ReactiveProperty.2.5\lib\net45\ReactiveProperty.dll</HintPath>
       <Private>True</Private>
@@ -78,13 +86,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\DecimalPropertyExtensions.cs" />
     <Compile Include="Models\CalculatorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\CalculatorViewModel.cs" />
-    <Compile Include="ViewModels\ReentrantBlocker.cs" />
     <Compile Include="Views\CalculatorControl.xaml.cs">
       <DependentUpon>CalculatorControl.xaml</DependentUpon>
     </Compile>
@@ -93,11 +99,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="Views\CalculatorControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Styles\MyControlStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MyControlStyles.xaml">
+    <Page Include="Views\CalculatorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

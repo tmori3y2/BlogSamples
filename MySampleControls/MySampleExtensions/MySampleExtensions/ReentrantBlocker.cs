@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyReactivePropertyControls.ViewModels
+namespace MySampleExtensions
 {
     public class ReentrantBlocker : IDisposable
     {

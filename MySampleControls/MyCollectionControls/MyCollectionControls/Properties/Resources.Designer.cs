@@ -79,6 +79,15 @@ namespace MyCollectionControls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot import the file..
+        /// </summary>
+        internal static string CannotImportFileString {
+            get {
+                return ResourceManager.GetString("CannotImportFileString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot insert the row..
         /// </summary>
         internal static string CannotInsertRowString {

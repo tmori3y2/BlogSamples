@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using MySampleExtensions.Wpf;
+
 using MyCollectionControls.Models;
 using MyCollectionControls.ViewModels;
 
@@ -31,6 +33,31 @@ namespace MyCollectionControls.Views
             InitializeComponent();
             model = new MyCollectionModel();
             DataContext = viewModel = new MyCollectionViewModel(model);
+        }
+
+        public bool HasErrors
+        {
+            get
+            {
+                return (viewModel != null) ?
+                       (viewModel.HasErrors != null) ?
+                       viewModel.HasErrors.Value : false : false;
+            }
+        }
+
+        public bool IsDirty
+        {
+            get
+            {
+                return (viewModel != null) ?
+                       (viewModel.IsDirty != null) ?
+                       viewModel.IsDirty.Value : false : false;
+            }
+        }
+
+        public void UpdateBindingSource()
+        {
+            BindingHelper.UpdateAllElements(this);
         }
 
         #region IDisposable Members

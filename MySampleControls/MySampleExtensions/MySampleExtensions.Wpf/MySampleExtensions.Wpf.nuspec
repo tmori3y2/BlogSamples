@@ -11,17 +11,13 @@
     <description>$description$</description>
     <releaseNotes>My sample extensions for my blog articles.</releaseNotes>
     <copyright>$copyright$</copyright>
-    <tags>MVVM ReactiveProperty Rx</tags>
-    <dependencies>
-      <dependency id="Rx-Interfaces" version="[2.2.5,)" />
-      <dependency id="Rx-Core" version="[2.2.5,)" />
-      <dependency id="Rx-Linq" version="[2.2.5,)" />
-      <dependency id="Rx-PlatformServices" version="[2.2.5,)" />
-      <dependency id="Rx-Main" version="[2.2.5,)" />
-      <dependency id="ReactiveProperty" version="[2.5,)" />
-    </dependencies>
+    <tags>WPF</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Windows.Interactivity" targetFramework=".NETFramework4.5" />
+    </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\Release\$id$.pdb" target="lib\portable-net45+win+wpa81+wp80" />
+    <file src="bin\Release\$id$.pdb" target="lib\net45" />
+    <file src="Styles\*.xaml" target="content\net45\Styles" />
   </files>
 </package>

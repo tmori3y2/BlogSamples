@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ViewModels="clr-namespace:MyCollectionControls.ViewModels"
+             xmlns:MySampleExtensionsWpf="clr-namespace:MySampleExtensions.Wpf;assembly=MySampleExtensions.Wpf"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance {x:Type ViewModels:MyCollectionViewModel}, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="400">
     <UserControl.Resources>
-        <ResourceDictionary Source="MyControlStyles.xaml"/>
+        <ResourceDictionary Source="/MyCollectionControls;component/Styles/MyControlStyles.xaml"/>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
         <StackPanel Width="Auto" Orientation="Horizontal">
@@ -31,6 +32,13 @@
                     <MenuItem Header="Insert row above" Command="{Binding InsertRowAboveCommand}" />
                     <MenuItem Header="Insert row below" Command="{Binding InsertRowBelowCommand}" />
                     <MenuItem Header="Delete rows" Command="{Binding DeleteRowsCommand}" />
+                    <MenuItem Header="Import table..." IsEnabled="{Binding CanExecuteCommands.Value}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <MySampleExtensionsWpf:OpenFileAction Command="{Binding ImportFileCommand}" Filter="Tab Delimited Text Files (*.txt)|*.txt" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

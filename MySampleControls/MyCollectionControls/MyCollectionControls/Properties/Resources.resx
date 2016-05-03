@@ -123,6 +123,9 @@
   <data name="CannotDeleteRowsString" xml:space="preserve">
     <value>Cannot delete the rows.</value>
   </data>
+  <data name="CannotImportFileString" xml:space="preserve">
+    <value>Cannot import the file.</value>
+  </data>
   <data name="CannotInsertRowString" xml:space="preserve">
     <value>Cannot insert the row.</value>
   </data>

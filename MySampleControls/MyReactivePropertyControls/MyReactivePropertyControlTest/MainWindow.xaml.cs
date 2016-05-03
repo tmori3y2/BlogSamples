@@ -24,5 +24,26 @@ namespace MyReactivePropertyControlTest
         {
             InitializeComponent();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (ControlBody != null)
+            {
+                ControlBody.UpdateBindingSource();
+
+                if (ControlBody.HasErrors)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                if (ControlBody.IsDirty)
+                {
+                    // TODO: Saves data.
+                }
+
+                ControlBody.Dispose();
+            }
+        }
     }
 }

@@ -13,8 +13,9 @@ using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
+using MySampleExtensions;
+
 using MyReactivePropertyControls.Models;
-using MyReactivePropertyControls.Extensions;
 
 namespace MyReactivePropertyControls.ViewModels
 {
