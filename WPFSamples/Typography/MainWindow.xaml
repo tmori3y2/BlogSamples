@@ -1,0 +1,56 @@
+﻿<Window x:Class="Typography.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Typography"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance {x:Type local:CollectionViewModel}, IsDesignTimeCreatable=True}"
+        Title="MainWindow" Height="350" Width="650">
+    <StackPanel>
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label Content="Normal Label" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock Text="Normal TextBlock" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="5" />
+            <TextBlock Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="5">
+                TextBlock with Typography.Variants: X<Run Typography.Variants="Subscript">i</Run><Run Typography.Variants="Superscript">2</Run><LineBreak/>
+                the Typography.Variants is not working on Windows 7.
+            </TextBlock>
+            <TextBlock Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="5" FontSize="12">
+                TextBlock with BaselineAlignment: X<Run BaselineAlignment="Subscript" FontSize="9">i</Run><Run BaselineAlignment="Superscript" FontSize="9">2</Run><LineBreak/>
+                The BaselineAlignment is working on Windows 7.
+            </TextBlock>
+        </Grid>
+        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Normal Header X1" Binding="{Binding X}" />
+                <DataGridTextColumn Binding="{Binding Y}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                TextBlock Header Y<Run Typography.Variants="Subscript">1</Run> by Typography.Variants
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding X}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="12">
+                                TextBlock Header X<Run BaselineAlignment="Subscript" FontSize="9">2</Run> by BaselineAlignment
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</Window>
