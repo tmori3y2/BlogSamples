@@ -28,6 +28,8 @@ protected:
 	CUserControl1 m_objControl1;
 	CUserControl2 m_objControl2;
 	CUserControl3 m_objControl3;
+	CWnd m_objControl4;
+	CWnd m_objControl5;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();

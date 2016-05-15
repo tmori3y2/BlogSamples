@@ -7,9 +7,15 @@
 #include "MfcClassWizardIssueDlg.h"
 #include "afxdialogex.h"
 
+#import "..\tlb\CSActiveXUserControl3.tlb" no_namespace named_guids
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
+#include "Debug\csactivexusercontrol3.tlh"
+#else
+#include "Release\csactivexusercontrol3.tlh"
 #endif
+
 
 
 // CMfcClassWizardIssueDlg dialog
@@ -26,9 +32,9 @@ void CMfcClassWizardIssueDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 
-	DDX_Control(pDX, IDC_CUSTOM1, m_objControl1);
-	DDX_Control(pDX, IDC_CUSTOM2, m_objControl2);
-	DDX_Control(pDX, IDC_CUSTOM3, m_objControl3);
+	//DDX_Control(pDX, IDC_CUSTOM1, m_objControl1);
+	//DDX_Control(pDX, IDC_CUSTOM2, m_objControl2);
+	//DDX_Control(pDX, IDC_CUSTOM3, m_objControl3);
 }
 
 BEGIN_MESSAGE_MAP(CMfcClassWizardIssueDlg, CDialogEx)
@@ -49,6 +55,12 @@ BOOL CMfcClassWizardIssueDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+
+	m_objControl1.Attach(GetDlgItem(IDC_CUSTOM1)->m_hWnd);
+	m_objControl2.Attach(GetDlgItem(IDC_CUSTOM2)->m_hWnd);
+	m_objControl3.Attach(GetDlgItem(IDC_CUSTOM3)->m_hWnd);
+	m_objControl4.Attach(GetDlgItem(IDC_CUSTOM4)->m_hWnd);
+	m_objControl5.Attach(GetDlgItem(IDC_CUSTOM5)->m_hWnd);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -83,6 +95,14 @@ void CMfcClassWizardIssueDlg::OnPaint()
 		m_objControl1.Invalidate(TRUE);
 		m_objControl2.Refresh();
 		m_objControl3.Invalidate(TRUE);
+		IOleObjectPtr pOleObj(m_objControl4.GetControlUnknown());
+		if (pOleObj != nullptr)
+		{
+			IUserControl4Ptr iControl4;
+			HRESULT hr = pOleObj.QueryInterface(DIID_IUserControl4, &iControl4);
+			if (iControl4 != nullptr) iControl4->Refresh();
+		}
+		m_objControl5.Invalidate(TRUE);
 	}
 }
 

@@ -12,7 +12,7 @@ namespace CSActiveXUserControl2
     }
 
     [ComVisible(true)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     [Guid("B4D237D0-07CE-4867-9282-0CDCB5D11D8B")]
     public interface IUserControl2
     {

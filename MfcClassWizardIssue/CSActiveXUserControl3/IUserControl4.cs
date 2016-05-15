@@ -13,9 +13,8 @@ namespace CSActiveXUserControl3
     }
 
     [ComVisible(true)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     [Guid("C6888420-A901-4C76-BA0F-EE3B1ED1D303")]
-    [CoClass(typeof(UserControl4))]
     public interface IUserControl4
     {
         [DispId(DispathId.DISPID_REFRESH)]
