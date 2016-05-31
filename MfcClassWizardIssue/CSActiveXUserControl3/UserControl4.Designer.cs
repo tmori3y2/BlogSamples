@@ -33,23 +33,30 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(3, 3);
+            this.button4.AutoSize = true;
+            this.button4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.button4.Location = new System.Drawing.Point(0, 0);
+            this.button4.Margin = new System.Windows.Forms.Padding(0);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.Padding = new System.Windows.Forms.Padding(18, 3, 18, 3);
+            this.button4.Size = new System.Drawing.Size(122, 41);
             this.button4.TabIndex = 0;
             this.button4.Text = "button4";
             this.button4.UseVisualStyleBackColor = true;
             // 
             // UserControl4
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.button4);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "UserControl4";
-            this.Size = new System.Drawing.Size(81, 29);
+            this.Size = new System.Drawing.Size(122, 41);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

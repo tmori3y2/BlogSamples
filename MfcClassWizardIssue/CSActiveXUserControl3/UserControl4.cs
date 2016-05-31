@@ -28,6 +28,9 @@ namespace CSActiveXUserControl3
         protected override void WndProc(ref Message m)
         {
             const int WM_SETFOCUS = 0x7;
+            const int WM_KILLFOCUS = 0x8;
+            const int WM_CLOSE = 0x10;
+            const int WM_SIZE = 0x5;
             const int WM_PARENTNOTIFY = 0x210;
             const int WM_DESTROY = 0x2;
             const int WM_LBUTTONDOWN = 0x201;
@@ -47,6 +50,16 @@ namespace CSActiveXUserControl3
                     // Raise Enter event
                     this.OnEnter(System.EventArgs.Empty);
                 }
+            }
+            else if (m.Msg == WM_KILLFOCUS ||
+                     m.Msg == WM_CLOSE)
+            {
+                // Raise Leave event
+                this.OnLeave(System.EventArgs.Empty);
+            }
+            else if (m.Msg == WM_SIZE)
+            {
+                this.Refresh();
             }
             else if (m.Msg == WM_DESTROY &&
                 !this.IsDisposed && !this.Disposing)

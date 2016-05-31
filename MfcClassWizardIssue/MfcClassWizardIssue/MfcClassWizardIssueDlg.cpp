@@ -92,9 +92,9 @@ void CMfcClassWizardIssueDlg::OnPaint()
 	{
 		CDialogEx::OnPaint();
 
-		m_objControl1.Invalidate(TRUE);
-		m_objControl2.Refresh();
-		m_objControl3.Invalidate(TRUE);
+		m_objControl1.Invalidate(FALSE);
+		//m_objControl2.Refresh();
+		m_objControl3.Invalidate(FALSE);
 		IOleObjectPtr pOleObj(m_objControl4.GetControlUnknown());
 		if (pOleObj != nullptr)
 		{
@@ -102,7 +102,7 @@ void CMfcClassWizardIssueDlg::OnPaint()
 			HRESULT hr = pOleObj.QueryInterface(DIID_IUserControl4, &iControl4);
 			if (iControl4 != nullptr) iControl4->Refresh();
 		}
-		m_objControl5.Invalidate(TRUE);
+		m_objControl5.Invalidate(FALSE);
 	}
 }
 
