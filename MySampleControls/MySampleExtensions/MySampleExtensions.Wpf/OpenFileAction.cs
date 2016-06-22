@@ -1,4 +1,10 @@
-﻿using System;
+﻿// <copyright file="OpenFileAction.cs" company="tmori3y2.hatenablog.com">
+// Copyright (c) 2016 tmori3y2.hatenablog.com. All rights reserved.
+// </copyright>
+// <author>tmori3y2</author>
+// <date>2016/06/22</date>
+// <summary>Implements the open file action class</summary>
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +20,12 @@ using Microsoft.Win32;
 
 namespace MySampleExtensions.Wpf
 {
+    /// <summary>An open file action.</summary>
+    /// <remarks>tmori3y2, 2016/06/22.</remarks>
     public class OpenFileAction : TriggerAction<DependencyObject>
     {
+        /// <summary>Gets or sets the command.</summary>
+        /// <value>The command.</value>
         public ICommand Command
         {
             get
@@ -28,10 +38,13 @@ namespace MySampleExtensions.Wpf
             }
         }
 
+        /// <summary>The command property.</summary>
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register("Command", typeof(ICommand), typeof(OpenFileAction)
             , new PropertyMetadata(null));
 
+        /// <summary>Gets or sets the filter.</summary>
+        /// <value>The filter.</value>
         public string Filter
         {
             get
@@ -44,10 +57,13 @@ namespace MySampleExtensions.Wpf
             }
         }
 
+        /// <summary>The filter property.</summary>
         public static readonly DependencyProperty FilterProperty =
             DependencyProperty.Register("Filter", typeof(string), typeof(OpenFileAction)
             , new PropertyMetadata(null));
 
+        /// <summary>Gets or sets a value indicating whether the multiselect.</summary>
+        /// <value>true if multiselect, false if not.</value>
         public bool Multiselect
         {
             get
@@ -60,10 +76,14 @@ namespace MySampleExtensions.Wpf
             }
         }
 
+        /// <summary>The multiselect property.</summary>
         public static readonly DependencyProperty MultiselectProperty =
             DependencyProperty.Register("Multiselect", typeof(bool), typeof(OpenFileAction)
             , new PropertyMetadata(null));
 
+        /// <summary>アクションを起動します。.</summary>
+        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <param name="parameter">アクションへのパラメーター。アクションがパラメーターを要求しない場合、パラメーターを null 参照に設定できます。.</param>
         protected override void Invoke(object parameter)
         {
             var openFileDialog = new OpenFileDialog();
