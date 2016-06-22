@@ -1,4 +1,10 @@
-﻿using System;
+﻿// <copyright file="MyDecimalExtensions.cs" company="tmori3y2.hatenablog.com">
+// Copyright (c) 2016 tmori3y2.hatenablog.com. All rights reserved.
+// </copyright>
+// <author>tmori3y2</author>
+// <date>2016/06/22</date>
+// <summary>Implements my decimal extensions class</summary>
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -12,11 +18,21 @@ using Reactive.Bindings.Extensions;
 
 using MySampleExtensions.Properties;
 
+
 namespace MySampleExtensions
 {
+    /// <summary>my decimal extensions.</summary>
+    /// <remarks>tmori3y2, 2016/06/22.</remarks>
     [CLSCompliant(true)]
     public static class MyDecimalExtensions
     {
+        /// <summary>A decimal extension method that converts.</summary>
+        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <param name="source">         The source to act on.</param>
+        /// <param name="decimals">       The decimals.</param>
+        /// <param name="allowsThousands">true to allows thousands.</param>
+        /// <param name="provider">       The provider.</param>
+        /// <returns>A string.</returns>
         public static string Convert(this decimal source, int decimals, bool allowsThousands, IFormatProvider provider)
         {
             string format = (decimals >= 0) ?
@@ -27,6 +43,15 @@ namespace MySampleExtensions
             return source.ToString(format, provider);
         }
 
+        /// <summary>A string extension method that convert back.</summary>
+        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <exception cref="FormatException">Thrown when the format of the ? is incorrect.</exception>
+        /// <param name="input">          The input to act on.</param>
+        /// <param name="decimals">       The decimals.</param>
+        /// <param name="allowsThousands">true to allows thousands.</param>
+        /// <param name="awayFromZero">   true to away from zero.</param>
+        /// <param name="provider">       The provider.</param>
+        /// <returns>The back converted.</returns>
         public static decimal ConvertBack(this string input, int decimals, bool allowsThousands, bool awayFromZero, IFormatProvider provider)
         {
             NumberStyles style = NumberStyles.Number & ~NumberStyles.AllowTrailingSign;
@@ -46,6 +71,19 @@ namespace MySampleExtensions
             return (decimals < 0) ? value : Math.Round(value, decimals, awayFromZero ? MidpointRounding.AwayFromZero : MidpointRounding.ToEven);
         }
 
+        /// <summary>A string extension method that validates the decimal.</summary>
+        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <exception cref="ArgumentException">
+        /// Thrown when one or more arguments have unsupported or illegal values.
+        /// </exception>
+        /// <param name="input">          The input to act on.</param>
+        /// <param name="lowerBound">     The lower bound.</param>
+        /// <param name="upperBound">     The upper bound.</param>
+        /// <param name="decimals">       The decimals.</param>
+        /// <param name="allowsThousands">true to allows thousands.</param>
+        /// <param name="checksDecimals"> true to checks decimals.</param>
+        /// <param name="provider">       The provider.</param>
+        /// <returns>A string.</returns>
         public static string ValidateDecimal(this string input, decimal lowerBound, decimal upperBound, int decimals, bool allowsThousands, bool checksDecimals, IFormatProvider provider)
         {
             if (upperBound < lowerBound)
@@ -98,26 +136,51 @@ namespace MySampleExtensions
             return null;
         }
 
+        /// <summary>A decimal extension method that converts.</summary>
+        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <param name="source">  The source to act on.</param>
+        /// <param name="decimals">The decimals.</param>
+        /// <returns>A string.</returns>
         public static string Convert(this decimal source, int decimals)
         {
             return source.Convert(decimals, true, null);
         }
 
+        /// <summary>A decimal extension method that converts.</summary>
+        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <param name="source">The source to act on.</param>
+        /// <returns>A string.</returns>
         public static string Convert(this int source)
         {
             return ((decimal)source).Convert(0, true, null);
         }
 
+        /// <summary>A string extension method that convert back.</summary>
+        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <param name="input">   The input to act on.</param>
+        /// <param name="decimals">The decimals.</param>
+        /// <returns>The back converted.</returns>
         public static decimal ConvertBack(this string input, int decimals)
         {
             return input.ConvertBack(decimals, true, true, null);
         }
 
+        /// <summary>A string extension method that convert back.</summary>
+        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <param name="input">The input to act on.</param>
+        /// <returns>The back converted.</returns>
         public static int ConvertBack(this string input)
         {
             return (int)input.ConvertBack(0, true, true, null);
         }
 
+        /// <summary>A string extension method that validates the decimal.</summary>
+        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <param name="input">     The input to act on.</param>
+        /// <param name="lowerBound">The lower bound.</param>
+        /// <param name="upperBound">The upper bound.</param>
+        /// <param name="decimals">  The decimals.</param>
+        /// <returns>A string.</returns>
         public static string ValidateDecimal(this string input, decimal lowerBound, decimal upperBound, int decimals)
         {
             return input.ValidateDecimal(lowerBound, upperBound, decimals, true, true, null);
