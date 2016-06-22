@@ -1,0 +1,4 @@
+[submodule "docs"]
+	path = docs
+	url = https://github.com/tmori3y2/BlogSamples.git
+	branch = gh-pages
