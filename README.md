@@ -1,5 +1,7 @@
 # BlogSamples
 
+My github pages: http://tmori3y2.github.io/BlogSamples/
+
 My gist: https://gist.github.com/tmori3y2
 
 My blog: http://tmori3y2.hatenablog.com/
