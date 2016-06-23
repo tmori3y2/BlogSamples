@@ -81,9 +81,12 @@ namespace MySampleExtensions.Wpf
             DependencyProperty.Register("Multiselect", typeof(bool), typeof(OpenFileAction)
             , new PropertyMetadata(null));
 
-        /// <summary>アクションを起動します。.</summary>
-        /// <remarks>tmori3y2, 2016/06/22.</remarks>
-        /// <param name="parameter">アクションへのパラメーター。アクションがパラメーターを要求しない場合、パラメーターを null 参照に設定できます。.</param>
+        /// <summary>Invokes the action.</summary>
+        /// <remarks>tmori3y2, 2016/06/23.</remarks>
+        /// <param name="parameter">
+        /// The parameter to the action. If the action does not require a parameter, the parameter may be
+        /// set to a null reference.
+        /// </param>
         protected override void Invoke(object parameter)
         {
             var openFileDialog = new OpenFileDialog();
