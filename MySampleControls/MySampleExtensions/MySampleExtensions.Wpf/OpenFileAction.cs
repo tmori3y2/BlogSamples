@@ -2,7 +2,7 @@
 // Copyright (c) 2016 tmori3y2.hatenablog.com. All rights reserved.
 // </copyright>
 // <author>tmori3y2</author>
-// <date>2016/06/22</date>
+// <date>2016/02/18</date>
 // <summary>Implements the open file action class</summary>
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ using Microsoft.Win32;
 namespace MySampleExtensions.Wpf
 {
     /// <summary>An open file action.</summary>
-    /// <remarks>tmori3y2, 2016/06/22.</remarks>
+    /// <remarks>tmori3y2, 2016/02/18.</remarks>
     public class OpenFileAction : TriggerAction<DependencyObject>
     {
         /// <summary>Gets or sets the command.</summary>
@@ -82,7 +82,7 @@ namespace MySampleExtensions.Wpf
             , new PropertyMetadata(null));
 
         /// <summary>Invokes the action.</summary>
-        /// <remarks>tmori3y2, 2016/06/23.</remarks>
+        /// <remarks>tmori3y2, 2016/02/18.</remarks>
         /// <param name="parameter">
         /// The parameter to the action. If the action does not require a parameter, the parameter may be
         /// set to a null reference.

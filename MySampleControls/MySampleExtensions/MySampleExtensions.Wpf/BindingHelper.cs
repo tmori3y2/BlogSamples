@@ -2,7 +2,7 @@
 // Copyright (c) 2016 tmori3y2.hatenablog.com. All rights reserved.
 // </copyright>
 // <author>tmori3y2</author>
-// <date>2016/06/22</date>
+// <date>2016/02/18</date>
 // <summary>Implements the binding helper class</summary>
 using System;
 using System.Collections.Generic;
@@ -18,14 +18,14 @@ using System.Windows.Media;
 namespace MySampleExtensions.Wpf
 {
     /// <summary>A binding helper.</summary>
-    /// <remarks>tmori3y2, 2016/06/22.</remarks>
+    /// <remarks>tmori3y2, 2016/02/18.</remarks>
     public static class BindingHelper
     {
         /// <summary>Gets binding expression.</summary>
-        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <remarks>tmori3y2, 2016/02/18.</remarks>
         /// <param name="current">The current.</param>
         /// <returns>The binding expression.</returns>
-        public static BindingExpression GetBindingExpression(DependencyObject current)
+        public static BindingExpression GetBindingExpression(this DependencyObject current)
         {
             if (current == null)
             {
@@ -47,13 +47,13 @@ namespace MySampleExtensions.Wpf
         }
 
         /// <summary>Gets the binding expressions in this collection.</summary>
-        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <remarks>tmori3y2, 2016/02/18.</remarks>
         /// <param name="parent">The parent.</param>
         /// <returns>
         /// An enumerator that allows foreach to be used to process the binding expressions in this
         /// collection.
         /// </returns>
-        public static IEnumerable<BindingExpression> GetBindingExpressions(DependencyObject parent)
+        public static IEnumerable<BindingExpression> GetBindingExpressions(this DependencyObject parent)
         {
             var stack = new Stack<DependencyObject>();
             stack.Push(parent);
@@ -84,9 +84,9 @@ namespace MySampleExtensions.Wpf
         }
 
         /// <summary>Updates all elements described by parent.</summary>
-        /// <remarks>tmori3y2, 2016/06/22.</remarks>
+        /// <remarks>tmori3y2, 2016/02/18.</remarks>
         /// <param name="parent">The parent.</param>
-        public static void UpdateAllElements(DependencyObject parent)
+        public static void UpdateAllElements(this DependencyObject parent)
         {
             foreach (var bindingExpression in GetBindingExpressions(parent))
             {
