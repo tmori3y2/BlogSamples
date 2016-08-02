@@ -106,8 +106,8 @@ public class CultureInfoSummary
         GroupSeparator = groupSeparatorChar.GetDisplayString();
 		NegativeSign = negativeSignChar.GetDisplayString();
 		NegativePattern = parent.NumberFormat.NumberNegativePattern;
-		FloatingSample = string.Format(parent, "{0:F}", -1500.00m);
-		NumberSample = string.Format(parent, "{0:N}", -1500.00m);
+		FloatingSample = string.Format(parent, "{0:F}", -1500.005m);
+		NumberSample = string.Format(parent, "{0:N}", -1500.005m);
 		IsAmericanStyle = IsAmericanStyleBody();
 		IsGermanStyle = IsGermanStyleBody();
 		IsEnglishSiStyle = IsEnglishSiStyleBody();
