@@ -15,4 +15,5 @@
 // "In Suppression File".
 // You do not need to add suppressions to this file manually.
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Justification = "Pending")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1636:File header copyright text must match", Justification = "Pending")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1636:File header copyright text must match", Justification = "Stylecop.json not working")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:Prefix local calls with this", Justification = "Conflict with IDE0003", Scope = "member", Target = "~M:CultureHelper.NumberFormatInfoSummary.#ctor(System.Globalization.CultureInfo)")]
