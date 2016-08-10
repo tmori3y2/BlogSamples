@@ -48,6 +48,7 @@
     <None Include="build\MSBuildTasks.ImportedTask.targets" />
     <None Include="CultureHelper.nuspec" />
     <None Include="packages.config" />
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NumberFormatInfoExtensions.cs" />
