@@ -31,6 +31,19 @@ namespace NumericTest
                 literal.GetActualDecimals().Is(decimals);
                 input.ParseDecimal().GetActualDecimals().Is(decimals);
             });
+
+            1.00m.ToString().Is("1.00");
+            1.0m.ToString().Is("1.0");
+            1m.ToString().Is("1");
+            Math.Round(1.00m, 1, MidpointRounding.AwayFromZero).ToString().Is("1.0");
+            Math.Round(1.0m, 1,  MidpointRounding.AwayFromZero).ToString().Is("1.0");
+            Math.Round(1m, 1,    MidpointRounding.AwayFromZero).ToString().Is("1");
+            Math.Round(1.00m, 1, MidpointRounding.AwayFromZero).GetActualDecimals().Is(1);
+            Math.Round(1.0m,  1, MidpointRounding.AwayFromZero).GetActualDecimals().Is(1);
+            Math.Round(1m,    1, MidpointRounding.AwayFromZero).GetActualDecimals().Is(0);
+            decimal.GetBits(Math.Round(1.00m, 1, MidpointRounding.AwayFromZero)).Is(decimal.GetBits(1.0m), (x, y) => x == y);
+            decimal.GetBits(Math.Round(1.0m,  1, MidpointRounding.AwayFromZero)).Is(decimal.GetBits(1.0m), (x, y) => x == y);
+            decimal.GetBits(Math.Round(1m,    1, MidpointRounding.AwayFromZero)).Is(decimal.GetBits(1m),  (x, y) => x == y);
         }
 
         public static object[] TestDecimalSorce = new[]
@@ -58,6 +71,8 @@ namespace NumericTest
             new object[] { 1.0000000000000000000000000000m, 28, 1.00000000000000000000000000005m,     "1.00000000000000000000000000005"     },
             new object[] { 1m,                              14, 1.00000000000000m,                    "1.00000000000000"                    },
             new object[] { 0.0000000000000000000000000000m, 28, 0.000000000000000000000000000000123m, "0.000000000000000000000000000000123" },
+            new object[] { 7.9228162514264337593543950335m, 28, 7.9228162514264337593543950335m,      "7.9228162514264337593543950335"     },
+            new object[] { 7.922816251426433759354395034m,  27, 7.9228162514264337593543950336m,      "7.9228162514264337593543950336"     },
         };
     }
 }
