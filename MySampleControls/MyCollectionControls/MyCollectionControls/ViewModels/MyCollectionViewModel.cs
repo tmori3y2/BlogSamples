@@ -22,7 +22,7 @@ namespace MyCollectionControls.ViewModels
     {
         private CompositeDisposable disposables = new CompositeDisposable();
         private ReentrantBlocker blocker = new ReentrantBlocker();
-        private MyCollectionModel model;
+        public MyCollectionModel Model;
 
         public ReadOnlyReactiveCollection<PointViewModel> Points { get; private set; }
 
@@ -49,7 +49,7 @@ namespace MyCollectionControls.ViewModels
 
         public MyCollectionViewModel(MyCollectionModel model)
         {
-            this.model = model ?? new MyCollectionModel();
+            this.Model = model ?? new MyCollectionModel();
 
             InitializeProperties();
             InitializeControlProperties();
@@ -60,7 +60,7 @@ namespace MyCollectionControls.ViewModels
         {
             Points =
                 // Observes the collection changed.
-                model.Points
+                Model.Points
                 // Initializes the collection.
                 .ToReadOnlyReactiveCollection(m => new PointViewModel(m))
                 // Disposes this collection if unused.
@@ -70,78 +70,93 @@ namespace MyCollectionControls.ViewModels
                 .ObserveAddChangedItems()
                 .Subscribe(vms =>
                 {
-                    vms.ToList()
-                    .ForEach(vm =>
+                    if (vms.Count() > 0)
                     {
-                        vm.X
-                        .SetValidateNotifyError(s =>
-                        {
-                            NumberStyles style = NumberStyles.Number & ~NumberStyles.AllowTrailingSign;
-                            IFormatProvider provider = CultureInfo.CurrentUICulture;
+                        // gets new item.
+                        var current = vms[0];
 
-                            decimal input = decimal.Zero;
-                            if (!decimal.TryParse(s, style, provider, out input))
-                            {
-                                return null;
-                            }
+                        // sets collection level validation rule.
+                        current.X
+                             .SetValidateNotifyError(s =>
+                             {
+                                 // checks block conditions.
+                                 if (IsReadOnly.Value) return null;
 
-                            var list = model.Points
-                                .Select((p, i) =>
-                                {
-                                    decimal value = decimal.Zero;
-                                    if (Points[i] == vm)
+                                 // skips condition checked by another rule.
+                                 decimal? parsedValue = ConvertBackOrNull(s);
+                                 if (parsedValue == null) return null;
+
+                                 // validates duplicate values.
+                                 var duplicateCount = Points
+                                    // gets other items.
+                                    .Where(item => item != current)
+                                    // gets runtime values.
+                                    .Select(item =>
                                     {
-                                        return input;
-                                    }
-                                    if (Points[i].X.HasErrors && decimal.TryParse(Points[i].X.Value, style, provider, out value))
-                                    {
-                                        return value;
-                                    }
-                                    else
-                                    {
-                                        return p.X.Value;
-                                    }
-                                })
-                                .ToList();
+                                        // gets displayed value if the value has errors.
+                                        if (item.X.HasErrors)
+                                        {
+                                            // gets the value that cannot be accepted but can be parsed.
+                                            // gets model value if the value cannot be parsed.
+                                            decimal? value = ConvertBackOrNull(item.X.Value) ?? item.Model.X.Value;
+                                            return value.Value;
+                                        }
 
-                            var count = list
-                                .Where(x => x == input)
-                                .Count();
+                                        // gets model value.
+                                        return item.Model.X.Value;
+                                    })
+                                    // gets same values.
+                                    .Where(runTime => runTime == parsedValue.Value)
+                                    .Count();
 
-                            if (count > 1)
-                            {
-                                return "Cannot set the duplicate X.";
-                            }
-                            else if (!blocker.Blocked)
-                            {
-                                using (blocker.Enter())
-                                {
-                                    Points
-                                        .Where(p =>
-                                            p.X.HasErrors && (p != vm))
-                                        .ToList()
-                                        .ForEach(p =>
-                                            p.X.ForceNotify());
-                                }
-                            }
-                            return null;
-                        });
-                    });
+                                 string message = null;
+                                 if (duplicateCount > 0) message = "Cannot set the duplicate X.";
+                                 return message;
+                             });
+                    }
                 })
                 .AddTo(disposables);
 
             Points
                 .ObserveRemoveChangedItems()
+                .Where(_ => !IsReadOnly.Value)
                 .Subscribe(_ =>
                 {
-                    using (blocker.Enter())
+                    if (!blocker.Blocked)
                     {
-                        Points
-                            .Where(p =>
-                                p.X.HasErrors)
-                            .ToList()
-                            .ForEach(p =>
-                                p.X.ForceNotify());
+                        using (blocker.Enter())
+                        {
+                            // gets other items which has errors.
+                            var items = Points.Where(item => item.X.HasErrors);
+
+                            // validates items again.
+                            foreach (var item in items)
+                            {
+                                item.X.ForceNotify();
+                            }
+                        }
+                    }
+                })
+                .AddTo(disposables);
+
+            Points
+                .ObserveElementObservableProperty(item => item.X)
+                .Where(_ => !IsReadOnly.Value)
+                .Subscribe(pack =>
+                {
+                    if (!blocker.Blocked)
+                    {
+                        using (blocker.Enter())
+                        {
+                            // gets other items.
+                            var items = Points.Where(item => (item != pack.Instance));
+
+                            // validates items again.
+                            foreach (var item in items)
+                            {
+                                item.X.ForceNotify();
+                            }
+                        }
                     }
                 })
                 .AddTo(disposables);
@@ -228,7 +243,7 @@ namespace MyCollectionControls.ViewModels
         {
             LastErrorMessage =
                 // Observes the dependent property.
-                model.LastErrorMessage
+                Model.LastErrorMessage
                 // Initializes the property.
                 .ToReadOnlyReactiveProperty()
                 // Disposes this property if unused.
@@ -258,7 +273,7 @@ namespace MyCollectionControls.ViewModels
                 new[]
                 {
                     CanExecuteCommands,
-                    model.CanAddRow
+                    Model.CanAddRow
                 }
                 .CombineLatestValuesAreAllTrue()
                 // Initializes the property.
@@ -271,7 +286,7 @@ namespace MyCollectionControls.ViewModels
                 new[]
                 {
                     CanExecuteCommands,
-                    model.CanInsertRow
+                    Model.CanInsertRow
                 }
                 .CombineLatestValuesAreAllTrue()
                 .CombineLatest(CurrentIndex, (b, i) => b && (0 <= i))
@@ -282,7 +297,7 @@ namespace MyCollectionControls.ViewModels
 
             CanDeleteRows =
                 // Observes the dependent properties.
-                model.CanDeleteRows
+                Model.CanDeleteRows
                 .CombineLatest(IsReadOnly, (canDeleteRows, isReadOnly) => canDeleteRows && !isReadOnly)
                 .CombineLatest(CurrentIndex, (b, i) => b && (0 <= i))
                 // Initializes the property.
@@ -303,7 +318,7 @@ namespace MyCollectionControls.ViewModels
                     CanAddRow.Value)
                 .Subscribe(_ =>
                 {
-                    model.AddRow();
+                    Model.AddRow();
                 })
                 .AddTo(disposables);
 
@@ -320,7 +335,7 @@ namespace MyCollectionControls.ViewModels
                     CanInsertRow.Value)
                 .Subscribe(_ =>
                 {
-                    model.InsertRowAbove(CurrentIndex.Value);
+                    Model.InsertRowAbove(CurrentIndex.Value);
                     CurrentIndex.Value = -1;
                 })
                 .AddTo(disposables);
@@ -338,7 +353,7 @@ namespace MyCollectionControls.ViewModels
                     CanInsertRow.Value)
                 .Subscribe(_ =>
                 {
-                    model.InsertRowBelow(CurrentIndex.Value);
+                    Model.InsertRowBelow(CurrentIndex.Value);
                     CurrentIndex.Value = -1;
                 })
                 .AddTo(disposables);
@@ -356,7 +371,7 @@ namespace MyCollectionControls.ViewModels
                     CanDeleteRows.Value)
                 .Subscribe(_ =>
                 {
-                    model.DeleteRows(CurrentIndex.Value);
+                    Model.DeleteRows(CurrentIndex.Value);
                 })
                 .AddTo(disposables);
 
@@ -373,9 +388,22 @@ namespace MyCollectionControls.ViewModels
                     CanExecuteCommands.Value)
                 .Subscribe(s =>
                 {
-                    model.ImportFile(s);
+                    Model.ImportFile(s);
                 })
                 .AddTo(disposables);
+        }
+
+        public decimal? ConvertBackOrNull(string value)
+        {
+            NumberStyles style = NumberStyles.Number & ~NumberStyles.AllowTrailingSign;
+            IFormatProvider provider = CultureInfo.CurrentUICulture;
+
+            decimal input = decimal.Zero;
+            if (!decimal.TryParse(value, style, provider, out input))
+            {
+                return null;
+            }
+            return input;
         }
 
         #region IDisposable Members
@@ -383,7 +411,7 @@ namespace MyCollectionControls.ViewModels
         public void Dispose()
         {
             disposables.Dispose();
-            model.Dispose();
+            Model.Dispose();
         }
 
         #endregion

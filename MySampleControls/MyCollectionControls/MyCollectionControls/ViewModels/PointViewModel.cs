@@ -20,7 +20,7 @@ namespace MyCollectionControls.ViewModels
     public class PointViewModel : IDisposable
     {
         private CompositeDisposable disposables = new CompositeDisposable();
-        private PointModel model;
+        public PointModel Model;
 
         public ReactiveProperty<string> X { get; private set; }
         public ReactiveProperty<string> Y { get; private set; }
@@ -32,7 +32,7 @@ namespace MyCollectionControls.ViewModels
 
         public PointViewModel(PointModel model)
         {
-            this.model = model ?? new PointModel();
+            this.Model = model ?? new PointModel();
             InitializeProperties();
             InitializeControlProperties();
 
@@ -44,7 +44,7 @@ namespace MyCollectionControls.ViewModels
         {
             X =
                 // Observes the dependent property.
-                model.X
+                Model.X
                 // Converts from decimal to string.
                 .Select(d => d.Convert(2))
                 .Do(s =>
@@ -67,15 +67,15 @@ namespace MyCollectionControls.ViewModels
                 // Subscribes to source and reformats target if source not changed. 
                 .Subscribe(d =>
                 {
-                    model.X.Value = d;
-                    X.Value = model.X.Value.Convert(2);
+                    Model.X.Value = d;
+                    X.Value = Model.X.Value.Convert(2);
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
 
             Y =
                 // Observes the dependent property.
-                model.Y
+                Model.Y
                 // Converts from decimal to string.
                 .Select(d => d.Convert(2))
                 .Do(s =>
@@ -98,8 +98,8 @@ namespace MyCollectionControls.ViewModels
                 // Subscribes to source and reformats target if source not changed. 
                 .Subscribe(d =>
                 {
-                    model.Y.Value = d;
-                    Y.Value = model.Y.Value.Convert(2);
+                    Model.Y.Value = d;
+                    Y.Value = Model.Y.Value.Convert(2);
                 })
                 // Disposes the delegate if unused.
                 .AddTo(disposables);
@@ -129,8 +129,8 @@ namespace MyCollectionControls.ViewModels
                 // Observes the dependent properties.
                 new[]
                 {
-                    model.X.ChangedAsObservable(false),
-                    model.Y.ChangedAsObservable(false)
+                    Model.X.ChangedAsObservable(false),
+                    Model.Y.ChangedAsObservable(false)
                 }
                 .CombineLatestValuesAreAllFalse()
                 .Select(notDirty => !notDirty)

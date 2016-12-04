@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace MyCollectionControls.Models
 
         public readonly static int MaxPoints = 20;
 
-        public ReactiveCollection<PointModel> Points { get; private set; }
+        public ObservableCollection<PointModel> Points { get; private set; }
         public ReadOnlyReactiveProperty<int> PointCount { get; private set; }
 
         public ReactiveProperty<string> LastErrorMessage { get; private set; }
@@ -41,9 +42,7 @@ namespace MyCollectionControls.Models
         {
             Points =
                 // Initializes the collection.
-                new ReactiveCollection<PointModel>()
-                // Disposes this collection if unused.
-                .AddTo(disposables);
+                new ObservableCollection<PointModel>();
 
             PointCount =
                 // Observes the collection changed.
@@ -140,7 +139,7 @@ namespace MyCollectionControls.Models
         {
             if (CanAddRowBody())
             {
-                Points.AddOnScheduler(new PointModel());
+                Points.Add(new PointModel());
                 LastErrorMessage.Value = string.Empty;
             }
             else if (LastErrorMessage != null)
@@ -153,7 +152,7 @@ namespace MyCollectionControls.Models
         {
             if (CanInsertRowBody() && (0 <= index) && (index < PointCount.Value))
             {
-                Points.InsertOnScheduler(index, new PointModel());
+                Points.Insert(index, new PointModel());
                 LastErrorMessage.Value = string.Empty;
             }
             else if (LastErrorMessage != null)
@@ -166,7 +165,7 @@ namespace MyCollectionControls.Models
         {
             if (CanInsertRowBody() && (0 <= index) && (index < PointCount.Value))
             {
-                Points.InsertOnScheduler(index + 1, new PointModel());
+                Points.Insert(index + 1, new PointModel());
                 LastErrorMessage.Value = string.Empty;
             }
             else if (LastErrorMessage != null)
@@ -179,7 +178,7 @@ namespace MyCollectionControls.Models
         {
             if (CanDeleteRowsBody() && (0 <= index) && (index < PointCount.Value))
             {
-                Points.RemoveAtOnScheduler(index);
+                Points.RemoveAt(index);
                 LastErrorMessage.Value = string.Empty;
             }
             else if (LastErrorMessage != null)
@@ -192,7 +191,7 @@ namespace MyCollectionControls.Models
         {
             if (CanImportFile() && File.Exists(path))
             {
-                Points.ClearOnScheduler();
+                Points.Clear();
                 LastErrorMessage.Value = string.Empty;
             }
             else if (LastErrorMessage != null)
